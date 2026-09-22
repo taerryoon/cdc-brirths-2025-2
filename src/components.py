@@ -41,9 +41,13 @@ def inject_custom_css():
         .metric-value {
             font-size: 1.5rem;
             font-weight: 700;
-            color: #0F172A;
+            color: #DC2626;
             line-height: 1.2;
             white-space: nowrap;
+        }
+        .metric-number-red {
+            color: #DC2626;
+            font-weight: 600;
         }
         .metric-subtitle {
             font-size: 0.8rem;
@@ -152,7 +156,7 @@ def render_filter_summary(states: List[str], months: List[str], sex: str, total_
 
 
 def render_kpi_cards(kpis: Dict[str, Any]):
-    """Render the 5 required responsive KPI cards."""
+    """Render the 5 required responsive KPI cards with red numerical callouts."""
     col1, col2, col3, col4, col5 = st.columns(5)
 
     with col1:
@@ -160,7 +164,7 @@ def render_kpi_cards(kpis: Dict[str, Any]):
             f"""
             <div class="metric-card">
                 <div class="metric-title">Total Births</div>
-                <div class="metric-value">{kpis['total_births']:,}</div>
+                <div class="metric-value" style="color: #DC2626;">{kpis['total_births']:,}</div>
                 <div class="metric-subtitle">In current selection</div>
             </div>
             """,
@@ -172,7 +176,7 @@ def render_kpi_cards(kpis: Dict[str, Any]):
             f"""
             <div class="metric-card">
                 <div class="metric-title">Selected Geographies</div>
-                <div class="metric-value">{kpis['num_geographies']}</div>
+                <div class="metric-value" style="color: #DC2626;">{kpis['num_geographies']}</div>
                 <div class="metric-subtitle">States & DC represented</div>
             </div>
             """,
@@ -185,7 +189,7 @@ def render_kpi_cards(kpis: Dict[str, Any]):
             f"""
             <div class="metric-card">
                 <div class="metric-title">Avg Births / Month</div>
-                <div class="metric-value">{avg_formatted}</div>
+                <div class="metric-value" style="color: #DC2626;">{avg_formatted}</div>
                 <div class="metric-subtitle">Across active months</div>
             </div>
             """,
@@ -194,12 +198,12 @@ def render_kpi_cards(kpis: Dict[str, Any]):
 
     with col4:
         top_state_name, top_state_val = kpis["top_geography"]
-        val_sub = f"{top_state_val:,} births" if top_state_val > 0 else ""
+        val_sub = f"<span class='metric-number-red' style='color: #DC2626; font-weight: 600;'>{top_state_val:,}</span> births" if top_state_val > 0 else ""
         st.markdown(
             f"""
             <div class="metric-card">
                 <div class="metric-title">Top Geography</div>
-                <div class="metric-value" style="font-size: 1.45rem;">{top_state_name}</div>
+                <div class="metric-value" style="font-size: 1.45rem; color: #DC2626;">{top_state_name}</div>
                 <div class="metric-subtitle">{val_sub}</div>
             </div>
             """,
@@ -208,12 +212,12 @@ def render_kpi_cards(kpis: Dict[str, Any]):
 
     with col5:
         top_month_name, top_month_val = kpis["top_month"]
-        val_sub_m = f"{top_month_val:,} births" if top_month_val > 0 else ""
+        val_sub_m = f"<span class='metric-number-red' style='color: #DC2626; font-weight: 600;'>{top_month_val:,}</span> births" if top_month_val > 0 else ""
         st.markdown(
             f"""
             <div class="metric-card">
                 <div class="metric-title">Top Month</div>
-                <div class="metric-value" style="font-size: 1.45rem;">{top_month_name}</div>
+                <div class="metric-value" style="font-size: 1.45rem; color: #DC2626;">{top_month_name}</div>
                 <div class="metric-subtitle">{val_sub_m}</div>
             </div>
             """,
